@@ -7,16 +7,6 @@ $(function() {
     animate();
 });
 
-var fernSettings = {
-    stem: function (geometry) {
-	var end = new THREE.Vector3(0, 30, 10);
-	geometry.translate(0, 30, 10);
-	geometry.vertices.push(new THREE.Vector3(0, 0, 0));
-	geometry.vertices.push(end);
-	return end;
-    }
-};
-
 var fernState = {
     stemLength: 0
 };
