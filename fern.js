@@ -65,14 +65,25 @@ function leaf(stemDistance, tipOffset) {
 }
 
 function generateFernActions() {
-    return [
-        rotateX(Math.random()),
-        rotateZ(Math.random()),
+    var actions = [
+        rotateX(Math.random() * 0.6),
+        rotateZ(Math.random() * 0.4),
         scale(0.5 + Math.random() * 0.4),
-        stem(30),
-        leaf(1, new THREE.Vector3(50, 10, 0)),
-        leaf(1, new THREE.Vector3(-40, 20, 0))
+        stem(30 * (Math.random() + 0.5)),
+        leaf(Math.random(),
+             new THREE.Vector3(50 * Math.random(), 10, 0)),
+        leaf(Math.random(),
+             new THREE.Vector3(-(50 * Math.random()), 20, 0))
     ];
+
+    if (Math.random() > 0.8) {
+        actions.push(leaf(Math.random(),
+                          new THREE.Vector3(50 * (Math.random() - 0.5),
+                                            40,
+                                            0)));
+    }
+
+    return actions;
 }
 
 var fernActions;
