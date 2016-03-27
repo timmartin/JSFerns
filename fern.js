@@ -18,28 +18,28 @@ var fernState = {
 
 function rotateX(amount) {
     return function(geometry, fernState) {
-	geometry.rotateX(amount);
+        geometry.rotateX(amount);
     }
 }
 
 function rotateZ(amount) {
     return function(geometry, fernState) {
-	geometry.rotateZ(amount);
+        geometry.rotateZ(amount);
     }
 }
 
 function scale(amount) {
     return function(geometry) {
-	geometry.scale(amount, amount, amount);
+        geometry.scale(amount, amount, amount);
     }
 }
 
 function stem(length) {
     return function(geometry, fernState) {
         geometry.translate(0, length, 0);
-	geometry.vertices.push(new THREE.Vector3(0, 0, 0));
-	geometry.vertices.push(new THREE.Vector3(0, length, 0));
-	fernState.stemLength = length;
+        geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+        geometry.vertices.push(new THREE.Vector3(0, length, 0));
+        fernState.stemLength = length;
     }
 }
 
@@ -68,15 +68,15 @@ var fernActions = [
 
 function fern(level) {
     if (level <= 0) {
-	geometry = new THREE.Geometry();
+        geometry = new THREE.Geometry();
     }
     else {
-	geometry = fern(level - 1);
+        geometry = fern(level - 1);
     }
 
     var i;
     for (i = 0; i < fernActions.length; i++) {
-	fernActions[i](geometry, fernState)
+        fernActions[i](geometry, fernState)
     }
 
     return geometry;
@@ -84,9 +84,9 @@ function fern(level) {
 
 function init() {
     camera = new THREE.PerspectiveCamera(33,
-					 aspectRatio,
-					 1,
-					 10000 );
+                                         aspectRatio,
+                                         1,
+                                         10000 );
     camera.position.z = 700;
 
     scene = new THREE.Scene();
@@ -105,9 +105,9 @@ function init() {
     geometry.translate(0, -40, -15);
 
     material = new THREE.LineBasicMaterial({color: 0xffffff,
-					    opacity: 1,
-					    linewidth: 3,
-					    vertexColors: THREE.NoColors});
+                                            opacity: 1,
+                                            linewidth: 3,
+                                            vertexColors: THREE.NoColors});
 
     var line = new THREE.LineSegments(geometry, material);
     scene.add( line );
