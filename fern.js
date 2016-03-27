@@ -2,6 +2,11 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var camera, scene, renderer, material;
 
+// We use a fixed aspect ratio. This makes it simple to scale the
+// canvas to the width of its containing element without having to
+// worry about what the correct height should be.
+var aspectRatio = 1.6;
+
 $(function() {
     init();
     animate();
@@ -78,14 +83,8 @@ function fern(level) {
 }
 
 function init() {
-
-    var i, container;
-
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
-
     camera = new THREE.PerspectiveCamera(33,
-					 window.innerWidth / window.innerHeight,
+					 aspectRatio,
 					 1,
 					 10000 );
     camera.position.z = 700;
@@ -94,16 +93,16 @@ function init() {
 
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
 
-    container.appendChild( renderer.domElement );
+    // Force recalculation of the renderer size
+    onWindowResize();
+
+    $("#fern_container").append(renderer.domElement);
 
     var geometry = fern(12);
     geometry.normalize();
     geometry.scale(100, 100, 100);
     geometry.translate(0, -40, -15);
-    
-    // lines
 
     material = new THREE.LineBasicMaterial({color: 0xffffff,
 					    opacity: 1,
@@ -112,15 +111,14 @@ function init() {
 
     var line = new THREE.LineSegments(geometry, material);
     scene.add( line );
-    
+
     window.addEventListener('resize', onWindowResize, false);
 }
 
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    var width = $("#fern_container").width();
 
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize(width, width / aspectRatio);
 }
 
 function animate() {
